@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <header>
-      
+      "may all the beings of the world be happy"
     </header>
     <main>
       <div>
@@ -217,7 +217,16 @@ export default {
 </script>
 
 <style>
+  header{
+    width: 100%;
+    text-align: center;
+    margin-top: 80px;
+    font-size: 28px;
+    font-family: 'sofia';
+    padding-left: 30px;
+    padding-right: 30px;
+  }
   main{
-    margin-top: 150px;
+    margin-top: 40px;
   }
 </style>
