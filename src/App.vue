@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <header>
-      "may all the beings of the world be happy"
+      <p>"may all the beings of the world be happy"</p>
+      लोकाः समस्ताः सुखिनो भवन्तु
     </header>
     <main>
       <div>
@@ -220,7 +221,7 @@ export default {
   header{
     width: 100%;
     text-align: center;
-    margin-top: 80px;
+    margin-top: 20px;
     font-size: 28px;
     font-family: 'sofia';
     padding-left: 30px;
