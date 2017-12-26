@@ -15,9 +15,10 @@ body{
     line-height: 75px;
     cursor: pointer;
     border-radius: 9px;
-    background: red;
+    background: #FFE4E1;
     margin: 15px;
     border: 1px solid black;
+    opacity: 0.3;
 }
 
 .counter-frame{

@@ -1,50 +1,49 @@
 <template>
   <div id="app">
+    <Settings v-on:settingsChanged="settingsChanged" :settingsData="settings"></Settings>
     <header>
-      <p>"may all the beings of the world be happy"</p>
+      <p>may all the beings of the world be happy</p>
       लोकाः समस्ताः सुखिनो भवन्तु
     </header>
     <main>
-      <div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="1" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="2" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="3" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="4" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="5" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="6" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="7" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="8" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="9" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <ActionButton v-bind:actionClass="isCounting ? 'pause' : 'play'" v-bind:clickHandler="clickAction"></ActionButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <NumberButton number="0" v-bind:clickHandler="clickNumber"></NumberButton>
-        </div>
-        <div class="col-xs-4 text-center">
-          <ActionButton actionClass="stop" v-bind:clickHandler="clickAction"></ActionButton>
-        </div>
-        <div class="col-xs-12 text-center">
-          <CounterFrame v-bind:timer="isRaw ? rawTime : liveCounter"></CounterFrame> 
-        </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="1" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="2" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="3" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="4" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="5" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="6" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="7" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="8" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="9" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <ActionButton v-bind:actionClass="isCounting ? 'pause' : 'play'" v-bind:clickHandler="clickAction"></ActionButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <NumberButton number="0" v-bind:clickHandler="clickNumber"></NumberButton>
+      </div>
+      <div class="col-xs-4 text-center">
+        <ActionButton actionClass="stop" v-bind:clickHandler="clickAction"></ActionButton>
+      </div>
+      <div class="col-xs-12 text-center">
+        <CounterFrame v-bind:timer="isRaw ? rawTime : liveCounter"></CounterFrame> 
       </div>
     </main>
   </div>
@@ -55,6 +54,7 @@
 import ActionButton from './components/actionButton'
 import NumberButton from './components/numberButton'
 import CounterFrame from './components/counterFrame'
+import Settings from './components/settings'
 
 class TimerDisplay {
   hrs = '00'
@@ -72,7 +72,8 @@ export default {
   components: {
     ActionButton,
     NumberButton,
-    CounterFrame
+    CounterFrame,
+    Settings
   },
   data () {
     return {
@@ -82,10 +83,19 @@ export default {
       total: 0,
       isRaw: true,
       isCounting: false,
-      elapsed: 0
+      elapsed: 0,
+      settings: {
+        isUsingAttentionSound: localStorage.isUsingAttentionSound !== null ? localStorage.isUsingAttentionSound === "true" : false,
+        attentionInterval: localStorage.attentionInterval || 5
+      }
     }
   },
   methods: {
+    settingsChanged(data){
+      var self = this;
+      self.settings[data.field] = data.value;
+      localStorage.setItem(data.field, data.value);
+    },
     clickNumber (number) {
       var self = this
       if(!self.isRaw){
@@ -166,7 +176,7 @@ export default {
       counter.minutes = minutes > 9 ? minutes : "0" + minutes;
       counter.seconds = seconds > 9 ? seconds : "0" + seconds;
 
-      if(self.elapsed % 180 === 0){
+      if(self.settings.isUsingAttentionSound && self.elapsed % (self.settings.attentionInterval * 60) === 0){
         self.playSound('middle_bowl.mp3');
       }
 

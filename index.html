@@ -11,6 +11,9 @@
     <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
     <meta name="theme-color" content="#4DBA87">
 
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>static/lib/jquery/2.1.1/jquery-2.1.1.min.js"></script>
+    <script src="<%= htmlWebpackPlugin.files.publicPath %>static/lib/bootstrap/js/bootstrap-toggle.min.js"></script>
+
     <!-- Add to home screen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -20,14 +23,15 @@
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <link href="<%= htmlWebpackPlugin.files.publicPath %>static/lib/bootstrap/css/bootstrap-toggle.min.css" rel="stylesheet"/>
     <link href="<%= htmlWebpackPlugin.files.publicPath %>static/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="<%= htmlWebpackPlugin.files.publicPath %>static/css/app.css" rel="stylesheet"/>
-    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Sofia' rel='stylesheet'>  
+
     <% for (var chunk of webpack.chunks) {
         for (var file of chunk.files) {
           if (file.match(/\.(js|css)$/)) { %>
             <link rel="<%= chunk.initial?'preload':'prefetch' %>" href="<%= htmlWebpackPlugin.files.publicPath + file %>" as="<%= file.match(/\.css$/)?'style':'script' %>"><% }}} %>
-
   </head>
   <body>
     <noscript>
